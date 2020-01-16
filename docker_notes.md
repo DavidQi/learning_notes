@@ -7,7 +7,7 @@
 
 [Reference](https://docs.docker.com/engine/admin/using_supervisord/#running-your-supervisor-container)
 
-[Run a cron job with Docker](https://www.ekito.fr/people/run-a-cron-job-with-docker/)
+[Run a cron job with Docker](https://github.com/Ekito/docker-cron)
 
 ### Several issues that I faced while trying to get a cron job running in a docker container were:
 1. time in the docker container is in UTC not local time;
