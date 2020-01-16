@@ -50,13 +50,33 @@ sudo gpasswd -a ${USER} docker
 6. get images and run it
 ```shell
 sudo docker pull logstash
-docker run -it --rm logstash -e 'input { stdin { } } output { stdout { } }'
+sudo docker run -it --rm logstash -e 'input { stdin { } } output { stdout { } }'
 sudo docker run -d -p 80:80 owncloud
 >>> ea85efa0bd68357603a639ecb1f6046dec9b1f8211c3046cbd5bd48b6c05a206
 ```
 7. enter into container
 ```shell
 sudo docker exec -it ea85efa0bd68357603a639ecb1f6046dec9b1f8211c3046cbd5bd48b6c05a206 bash
+```
+8. check and remove images/containers 
+```shell
+sudo docker images
+sudo docker ps -a -q
+sudo docker rm $(sudo docker ps -a -q)
+sudo docker rmi ea85efa0bd68357603a639ecb1f6046dec9b1f8211c3046cbd5bd48b6c05a206
+```
+9. get ipaddress and other information
+```shell
+sudo docker inspect --format '{{ .NetworksSettings.IPAddress }}' $(sudo docker ps -a -q)
+sudo docker inspect --format '{{ .Config.Env }}' $(sudo docker ps -a -q)
+```
+10. pass varibles into container
+```shell
+sudo docker run -it --rm logstash -e ENV_NAME='Dev' -e HOSTNAME='abcxyz' --network=host -v /mnt/media/test/:/container/test/ image_name
+```
+10. pass ENV varibles into container as ENV file
+```shell
+env > env_file && sudo docker run --env-file env_file image_name
 ```
 
 ### PostgreSQL DB
