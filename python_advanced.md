@@ -1070,7 +1070,7 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
     ```
 
 #### 打包python程序，
-##### I. 得到自己的egg
+##### Way I. 得到自己的egg
 [Reference](http://my.oschina.net/taisha/blog/60165)
 
 经常接触Python的同学可能会注意到，当需要安装第三方python包时，可能会用到easy_install命令。easy_install是由PEAK(Python Enterprise Application Kit)开发的setuptools包里带的一个命令，它用来安装egg包。egg包是目前最流行的python应用打包部署方式。如何制作和安装egg包？下面我就简单的分析了一下。
@@ -1248,7 +1248,7 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
     ```
   卸载egg文件很简单，首先将包含此egg的行从easy-install.pth中删除，然后删除egg文件夹即可。
 
-##### II. pip install from Github
+##### Way II. pip install from Github or Nexus repository manager Server
 1. setup.py 文件
 
         $ cat setup.py
@@ -1287,9 +1287,10 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
 
     ```shell
     $ sudo pip3 install --upgrade pip setuptools
+    $ python3 setup.py sdist
     ```
 
-3, deploy the package into Github or Nexus Server
+3, deploy the built package into Github or Nexus Server
 
 4, pip install the package from Github repo or Nexus repository manager Server
 
@@ -1298,7 +1299,7 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
     ```
         Or
     ```shell
-    $ pip3 install -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus demo_package --user
+    $ pip3 -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus install demo_package --user
     ```
 
 #### python 抽象类、抽象方法的实现
