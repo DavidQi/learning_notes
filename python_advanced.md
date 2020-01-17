@@ -1069,7 +1069,8 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
     [(0, 1), (1, 3), (2, 5), (3, 7), (4, 9)]
     ```
 
-#### 打包python程序，得到自己的egg
+#### 打包python程序，
+##### I. 得到自己的egg
 [Reference](http://my.oschina.net/taisha/blog/60165)
 
 经常接触Python的同学可能会注意到，当需要安装第三方python包时，可能会用到easy_install命令。easy_install是由PEAK(Python Enterprise Application Kit)开发的setuptools包里带的一个命令，它用来安装egg包。egg包是目前最流行的python应用打包部署方式。如何制作和安装egg包？下面我就简单的分析了一下。
@@ -1246,6 +1247,59 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
     demo-0.1.0-py2.6.egg/
     ```
   卸载egg文件很简单，首先将包含此egg的行从easy-install.pth中删除，然后删除egg文件夹即可。
+
+##### II. pip install from Github
+1. setup.py 文件
+
+        $ cat setup.py
+    ```python
+    #!/usr/bin/env python
+    #-*- coding:utf-8 -*-
+
+    from setuptools import setup, find_packages
+    
+    with open('README.md', 'r') as f:
+        long_description = f.read()
+
+    setup(
+            name = "demo",
+            version="0.1.0",
+            packages = find_packages(),
+            zip_safe = False,
+            install_requires = ['numpy', 'pandas', ],
+
+            description = "test demo.",
+            long_description = long_description,
+            long_description_content_type = 'text_markdown'
+            author = "David Qi",
+            author_email = "david.qi@github.com",
+            url = 'https://github.com/davidqi/demo_package',
+
+            license = "GPL",
+            keywords = ("test", "egg"),
+            platforms = "Independant",
+            )
+    ```
+
+2. build packages
+
+        This command will create folders 'dist' and 'demo.egg-info'. The package will be dist/demo-0.1.0.tar.gz
+
+    ```shell
+    $ sudo pip3 install --upgrade pip setuptools
+    ```
+
+3, deploy the package into Github or Nexus Server
+
+4, pip install the package from Github repo or Nexus repository manager Server
+
+    ```shell
+    $ pip3 install git+ssh://git@github.com/davidqi/demo_package.git --user
+    ```
+        Or
+    ```shell
+    $ pip3 install -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus demo_package --user
+    ```
 
 #### python 抽象类、抽象方法的实现
 由于 Python 没有[抽象类和接口的概念](#Abstract_vs_Interface)， 所以要实现类似功能需要用内置的abc 类库 (为什么非要用抽象类、抽象方法呢？？)
