@@ -1255,34 +1255,34 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
 $ cat setup.py
 ```
 
-    ```python
-    #!/usr/bin/env python
-    #-*- coding:utf-8 -*-
+```python
+#!/usr/bin/env python
+#-*- coding:utf-8 -*-
 
-    from setuptools import setup, find_packages
-    
-    with open('README.md', 'r') as f:
-        long_description = f.read()
+from setuptools import setup, find_packages
 
-    setup(
-            name = "demo",
-            version="0.1.0",
-            packages = find_packages(),
-            zip_safe = False,
-            install_requires = ['numpy', 'pandas', ],
+with open('README.md', 'r') as f:
+long_description = f.read()
 
-            description = "test demo.",
-            long_description = long_description,
-            long_description_content_type = 'text_markdown'
-            author = "David Qi",
-            author_email = "david.qi@github.com",
-            url = 'https://github.com/davidqi/demo_package',
+setup(
+    name = "demo",
+    version="0.1.0",
+    packages = find_packages(),
+    zip_safe = False,
+    install_requires = ['numpy', 'pandas', ],
 
-            license = "GPL",
-            keywords = ("test", "egg"),
-            platforms = "Independant",
-            )
-    ```
+    description = "test demo.",
+    long_description = long_description,
+    long_description_content_type = 'text_markdown'
+    author = "David Qi",
+    author_email = "david.qi@github.com",
+    url = 'https://github.com/davidqi/demo_package',
+
+    license = "GPL",
+    keywords = ("test", "egg"),
+    platforms = "Independant",
+    )
+```
 
 2. build packages
 
