@@ -1283,45 +1283,44 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
 
 2. build packages
 
-        This command will create folders 'dist' and 'demo.egg-info'. The package will be dist/demo-0.1.0.tar.gz
+This command will create folders 'dist' and 'demo.egg-info'. The package will be dist/demo-0.1.0.tar.gz
 
-    ```shell
-    $ sudo pip3 install --upgrade pip setuptools
-    $ python3 setup.py sdist
-    ```
+```shell
+$ sudo pip3 install --upgrade pip setuptools
+$ python3 setup.py sdist
+```
 
 3, deploy the built package into Github or Nexus Server
 
 4, pip install the package from Github repo or Nexus repository manager Server
-        
 
-    ```shell
-    $ pip3 install git+ssh://git@github.com/davidqi/demo_package.git --user
-    ```
+```shell
+$ pip3 install git+ssh://git@github.com/davidqi/demo_package.git --user
+```
     
 Or
         
-    ```shell
-    $ pip3 -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus:8081 install demo_package --user
-    ```
+```shell
+$ pip3 -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus:8081 install demo_package --user
+```
     
 4.1, setup /etc/pip.conf
 
 
-    ```shell
-    $ cat /etc/pip.conf
-    [global]
-    index=http://mynexus:8081/repository/pypi-dev/simple
-    index-url=http://mynexus:8081/repository/pypi-dev/simple
-    trusted-host=mynexus:8081
-    $
-    ```
+```shell
+$ cat /etc/pip.conf
+[global]
+index=http://mynexus:8081/repository/pypi-dev/simple
+index-url=http://mynexus:8081/repository/pypi-dev/simple
+trusted-host=mynexus:8081
+$
+```
     
 and then
       
-    ```shell
-    $ pip3 install demo_package --user
-    ```
+```shell
+$ pip3 install demo_package --user
+```
 
 
 #### python 抽象类、抽象方法的实现
