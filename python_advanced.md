@@ -1299,8 +1299,23 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
     ```
         Or
     ```shell
-    $ pip3 -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus install demo_package --user
+    $ pip3 -i http://mynexus:8081/repository/pypi-dev/simple --trust-host mynexus:8081 install demo_package --user
     ```
+    
+4.1, setup /etc/pip.conf
+    ```shell
+    $ cat /etc/pip.conf
+    [global]
+    index=http://mynexus:8081/repository/pypi-dev/simple
+    index-url=http://mynexus:8081/repository/pypi-dev/simple
+    trusted-host=mynexus:8081
+    $
+    ```
+      and then
+    ```shell
+    $ pip3 install demo_package --user
+    ```
+
 
 #### python 抽象类、抽象方法的实现
 由于 Python 没有[抽象类和接口的概念](#Abstract_vs_Interface)， 所以要实现类似功能需要用内置的abc 类库 (为什么非要用抽象类、抽象方法呢？？)
