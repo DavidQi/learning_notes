@@ -1251,7 +1251,10 @@ The map, reduce, filter, and zip built-in functions are handy functions for proc
 ##### Way II. pip install from Github or Nexus repository manager Server
 1. setup.py 文件
 
-        $ cat setup.py
+```shell
+$ cat setup.py
+```
+
     ```python
     #!/usr/bin/env python
     #-*- coding:utf-8 -*-
