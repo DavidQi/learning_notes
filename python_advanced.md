@@ -871,6 +871,131 @@ o.setB()
     Decorator一般专用于方法，而Proxy用于类
 
 
+## Python Multiprocessing -- 3 ways to share data between processes
+
+### Way I: Using Queue
+
+#### Understanding Queue:
+ * Queue is a kind of complex data structure. 是复杂的数据结构的一种，即队列。
+ * Queues are both thread and process safe. 队列对于线程和进程都安全
+ * Queue is FIFO & LILO. 队列的特点是“先进先出(FIFO)，后进后出(LILO)” 
+     ** In contrast with Stack, Stack is FILO & LIFO. 与 栈 相反，栈的特点“先进后出，后进先出”
+
+```python
+import multiprocessing
+
+def send(q):
+    for i in ['a', 'b', 'c']:
+        q.put(i)
+        
+def receive(q):
+    result = []
+    while True:
+        result.append(q.get())
+        if q.empty():
+            break
+
+def main():
+    # Create a Queue
+    q = multiprocessing.Queue()
+    # 创建Process对象
+    p1 = multiprocessing.Process(target=send, args=(q,))
+    p2 = multiprocessing.Process(target=receive, args=(q,))
+    # 创建、启动进程
+    p1.start()
+    p2.start()
+
+if __name__ =="__main__":
+    main()
+
+```
+
+Another example from [stackflow](https://stackoverflow.com/questions/55643339/python-multiprocessing-sharing-data-between-processes)
+
+```python
+import multiprocessing as mp
+
+def add_process(queue, numbers_to_add):
+    for number in numbers_to_add:
+        queue.put(number)
+
+class AllNumsClass:
+    def __init__(self):
+        self.queue = mp.Queue()
+    def get_queue(self):
+        return self.queue
+
+if __name__ == '__main__':
+
+    all_nums_class = AllNumsClass()
+
+    processes = []
+    p1 = mp.Process(target=add_process, args=(all_nums_class.get_queue(), [1,3,5]))
+    p2 = mp.Process(target=add_process, args=(all_nums_class.get_queue(), [2,4,6]))
+
+    processes.append(p1)
+    processes.append(p2)
+    for p in processes:
+        p.start()
+    for p in processes:
+        p.join()
+
+    output = [] 
+    while all_nums_class.get_queue().qsize() > 0:
+        output.append(all_nums_class.get_queue().get())
+    print(output)
+```
+
+### Way II: Using PipeI
+#### Understanding Queue:
+ * Pipe will create a space in memory and be shared for all processes
+ * Pipe like data streaming, FIFO & LILO
+ * Pipe(duplex)方法将返回两个管道流对象，两个管道流对象分别表示管道的两端。
+   ** 如果参数为True的时候，两个对象均可发送接收，
+   ** 如果为False时，则第一个对象只能接收，第二个就只能发送。
+
+```python
+from multiprocessing import Process, Pipe
+
+def text(name, child_conn):
+    # 向管道发送数据
+    child_conn.send(name + "--OK--")
+
+if __name__ == "__main__":
+    job = []
+    child_conn, parent_conn = Pipe()
+    for i in range(5):
+        p = Process(target=text, args=(str(i+1), child_conn))
+        job.append(p)
+        p.start()
+    # 从管道接收数据
+    # 若管道中数据为空时发生阻塞
+    for i in range(5):
+        print(parent_conn.recv())
+```
+
+### Way III: Using Manager 
+ * Manager对象控制一个拥有list、dict、Lock、Condition、Event、Queue等对象的服务端进程，并且允许其他进程访问这些对象。
+ * Manager()返回的manager对象控制了一个server进程，此进程包含的python对象可以被其他的进程通过proxies来访问。从而达到多进程间数据通信且安全。
+
+```python
+import multiprocessing
+from random import randint
+
+def text(d, key, value):
+    d[key] = value
+
+if __name__ == "__main__":
+    mgr = multiprocessing.Manager()
+    d = mgr.dict()
+    jobs = [multiprocessing.Process(target=text, args=(d, i+1, (i+1)**2)) for i in range(5)]
+    for j in jobs:
+        j.start()
+    for j in jobs:
+        j.join()
+    print(dict(d))
+```
+
 ## Python Scenerio UnitTest
 
 #### Way I:
