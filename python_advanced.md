@@ -946,7 +946,7 @@ if __name__ == '__main__':
     print(output)
 ```
 
-### Way II: Using PipeI
+### Way II: Using Pipe
 #### Understanding Queue:
  * Pipe will create a space in memory and be shared for all processes
  * Pipe like data streaming, FIFO & LILO
