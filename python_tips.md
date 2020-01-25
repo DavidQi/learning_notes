@@ -1041,3 +1041,122 @@ if __name__ == "__main__":
         else:
             print('Please input the number you want')
 ```
+
+### An exapmle of REST API using Python & flask
+
+Server Side:
+
+```python
+from flask import Flask
+from flask_restful import Resource, Api
+from flask_restful.reqparse import RequestParser
+
+fk = Flask(__name__)
+api = Api(fk)
+
+books = [
+    {
+        "category": "tech",
+        "ISBN": abc100,
+        "title": "REST API using Python & Flask"
+    },
+    {
+        "category": "tech",
+        "ISBN": xyz200,
+        "title": "java10"
+    },
+    {
+        "category": "novel",
+        "ISBN": LMN300,
+        "title": "Go with Wind"
+    }
+]
+
+class Book(Resource):
+    def get(self, category):
+        for book in books:
+            if(category == book["category"]):
+                return book, 200
+        return "category not found", 404
+
+    def post(self, category):
+        parser = RequestParser()
+        parser.add_argument("ISBN")
+        parser.add_argument("title")
+        args = parser.parse_args()
+
+        for book in books:
+            if(category == article["category"]):
+                return "category  {} already exists".format(category), 400
+
+        book = {
+            "category": category,
+            "ISBN": args["ISBN"],
+            "title": args["title"]
+        }
+        books.append(book)
+        return book, 201
+
+    def put(self, category):
+        parser = RequestParser()
+        parser.add_argument("ISBN")
+        parser.add_argument("title")
+        args = parser.parse_args()
+
+        for book in books:
+            if(category == article["category"]):
+                article["ISBN"] = args["ISBN"]
+                article["title"] = args["title"]
+                return book, 200
+
+        book = {
+            "category": category,
+            "ISBN": args["ISBN"],
+            "title": args["title"]
+        }
+        books.append(book)
+        return book, 201
+
+    def delete(self, category):
+        global books
+        books = [book for book in books if book["category"] != category]
+        return "{} is deleted.".format(category), 200
+
+api.add_resource(Article, "/category/<string:category>")
+
+fk.run(debug=True,port=8080)
+```
+
+Client Side:
+```python
+import requests
+
+headers = {
+    'content-type': "application/json",
+    'x-apikey': "560bd47058e7ab1b2648f4e7",
+    'cache-control': "no-cache"
+    }
+
+def get():
+    url = "https://www.domian.com/rest/books/category"
+    response = requests.request("GET", url, headers=headers)
+    print(response.text)
+
+def post():
+    url = "https://www.domian.com/rest/books/category"
+    payload = json.dumps( {"category": "xyz","ISBN": "abcxyz" ,title:"Test for posting"} )
+    response = requests.request("POST", url, data=payload, headers=headers)
+    print(response.text)
+
+def put():
+    url = "https://www.domian.com/rest/books/category/560bd66201e7ab1b2648f4e7"
+    payload = "{\"ISBN\":\"abcxyz007\"}"
+    response = requests.request("PUT", url, data=payload, headers=headers)
+    print(response.text)
+
+def del():
+    url = "https://www.domian.com/rest/books/category/560bd66201e7ab1b2648f4e7"
+    response = requests.request("DELETE", url, headers=headers)
+    print(response.text)
+                    
+                    
