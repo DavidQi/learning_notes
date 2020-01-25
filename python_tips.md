@@ -1158,5 +1158,5 @@ def del():
     url = "https://www.domian.com/rest/books/category/560bd66201e7ab1b2648f4e7"
     response = requests.request("DELETE", url, headers=headers)
     print(response.text)
-                    
+```                    
                     
