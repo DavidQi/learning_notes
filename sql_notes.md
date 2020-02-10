@@ -187,7 +187,7 @@ insert into b(a, b, c) select d,e,f
 from b in '"&Server.MapPath(".")&"data.mdb" &"' where...
 ```
 
-4、**子查询
+4、**子查询**
 ```sql
 select a,b,c from X where a IN (select d from Y ) 
 ```
@@ -202,12 +202,18 @@ select a.title, a.username, b.adddate from table a, (select max(adddate) adddate
 select x.a, x.b, x.c, y.c, y.d, y.f from x LEFT OUT JOIN y ON x.a = y.c 
 ```
 
-7、说明：在线视图查询(表名1：a )
+7、**在线视图查询**
+```sql
 select * from (SELECT a,b,c FROM a) T where t.a > 1; 
+```
 
-8、说明：between的用法,between限制查询数据范围时包括了边界值,not between不包括
+8、**between的用法**
+
+between限制查询数据范围时包括了边界值, not between不包括
+```sql
 select * from table1 where time between time1 and time2
 select a,b,c, from table1 where a not between 数值1 and 数值2 
+```
 
 9、说明：in 的使用方法
 select * from table1 where a [not] in (‘值1’,’值2’,’值4’,’值6’) 
