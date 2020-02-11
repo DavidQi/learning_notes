@@ -25,6 +25,8 @@ Some learning notes, practice and projects here. Just some fragments of memory, 
 
 [Git 学习笔记](git_notes.md)
 
+[SQL 学习笔记](sql_notes.md)
+
 
 # Practice Scriptes
 
@@ -63,3 +65,16 @@ Some learning notes, practice and projects here. Just some fragments of memory, 
 [Some utils](https://gist.github.com/DavidQi/f0beb895010544034398db55519bfa17)
 
 [A tic tac toe game](https://gist.github.com/DavidQi/2fe56fbcbd53c108ea0b5f6bb10bbc46)
+
+===========================
+
+### Codewars Practice
+
+[caribbean pirate's problem](https://www.codewars.com/kata/reviews/555618977302c420d300000e/groups/5b2817d85031036203003097)
+
+[Roman Numerals Encoder](https://www.codewars.com/kata/reviews/54345cc660e8a7796b000106/groups/5b212543dde37c8a6b0000df)
+
+[Weight for weight](https://www.codewars.com/kata/reviews/55c616129aaa55500500002c/groups/5b207576469fb6bc13000baf)
+
+[Find the missing letter ](https://www.codewars.com/kata/reviews/583abab500bb9b40e0000003/groups/5b2079cefb056cba5600172a)
+
