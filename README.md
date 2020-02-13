@@ -66,6 +66,8 @@ Some learning notes, practice and projects here. Just some fragments of memory, 
 
 [A tic tac toe game](https://gist.github.com/DavidQi/2fe56fbcbd53c108ea0b5f6bb10bbc46)
 
+[To convert amout to English words] (https://gist.github.com/DavidQi/75817c76a3ff1e18b0e375b49a83692b)
+
 ===========================
 
 ### Codewars Practice
