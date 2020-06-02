@@ -20,7 +20,7 @@ alter table {table_name} drop column {col_name};
 
 alter table {table_name} rename to {new_table_name};
 
-select get_ddl ('table', 'table_name);
+select get_ddl ('table', '{table_name}');
 
 ```
 
