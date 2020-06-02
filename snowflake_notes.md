@@ -52,20 +52,39 @@ single = true
 max_file_size=5368709120;
 
 
-copy into {table_name}
-from 's3://{bucket}/backup/data_backup.csv'
-CREDENTIALS = (AWS_KEY_ID = '',
+create or replace stage {table_name}
+    URL = 's3://{bucket}/backup/data_backup.csv'
+    CREDENTIALS = (AWS_KEY_ID = '',
                 AWS_SECRET_KEY = '',
                 AWS_TOKEN = ''
               )
-file_format=(
+    file_format=(
+          type = CSV
+          skip_header = 1
+          --field_delimiter = '|'
+          empty_field_as_null = True
+          null_if = 'NULL'
+          FIELD_OPTIONALLY_ENCLOSED_BY = ''''
+          encoding=UTF8
+          compression=gzip
+        );
+
+
+copy into {table_name}
+    from 's3://{bucket}/backup/data_backup.csv'
+    CREDENTIALS = (AWS_KEY_ID = '',
+                AWS_SECRET_KEY = '',
+                AWS_TOKEN = ''
+              )
+    file_format=(
           type = CSV
           skip_header = 1
           --field_delimiter = '|'
           FIELD_OPTIONALLY_ENCLOSED_BY = ''''
           encoding=UTF8
-          --compression=gzip
-);
+          compression=gzip
+    );
+
 ```
 
 2、**snowpipe**
