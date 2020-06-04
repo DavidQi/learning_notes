@@ -1,8 +1,8 @@
 # If you want to know SnowFlake
 
-[SNOWFLAKE ARCHITECTURE] (https://www.snowflake.com/product/architecture/)
+[SNOWFLAKE ARCHITECTURE](https://www.snowflake.com/product/architecture/)
 
-[Snowflake Documentation] (https://docs.snowflake.com/en/index.html)
+[Snowflake Documentation](https://docs.snowflake.com/en/index.html)
 
 # Basic
 
@@ -111,7 +111,7 @@ show pipes;
 
 3、**snowflake --> AWS RDS Postgres**
 
-[Ref:] (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Procedural.Importing.html)
+[Ref:](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Procedural.Importing.html)
 
 ```sql
 -- Dump data from Snowflake to S3
