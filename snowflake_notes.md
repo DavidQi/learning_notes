@@ -109,6 +109,63 @@ create or replace pipe snowpipe.public.snowpipe auto_ingest=true as
 show pipes;
 ```
 
+3、**snowflake --> AWS RDS Postgres**
+[Ref]: (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Procedural.Importing.html#USER_PostgreSQL.S3Import.create_s3_uri)
+
+```sql
+-- Dump data from Snowflake to S3
+copy into 's3://{bucket}/{key}
+from {snowflake_table_name}
+credential = (
+    AWS_KEY_ID = '',
+    AWS_SECRET_KEU = '',
+    AWS_TOKEN = ''
+    )
+file_format = (
+    type = csv
+    skip_header = 1
+    field_delimiter = '|'
+    null_if = ('NULL')
+    empty_field_as_null = False
+    encoding = utf8
+    compression = None
+)
+overwrite = True
+single = True
+max_file_size = 5368709120;
+
+
+-- Create table in AWS RDS Postgres
+drop table if exists {post_table_name};
+create table {post_table_name} (
+    col_1 varchar,
+    col_2 int
+);
+
+
+-- install extension
+CREATE EXTENSION aws_s3 CASCADE;
+
+
+-- Load data from S3 into AWS RDS Postgres
+select aws_s3.table_import_from_s3 (
+    '{post_table_name}',
+    'col_1, col_2',
+    'delimiter''|''',
+    aws_common.create_s3_uri(
+        '{s3_bucket}',
+        '{s3_key}',
+        '{s3_region}'
+    ),
+    aws_common.create_aws_credential(
+        '{AWS_KEY_ID}',
+        '{AWS_SECRET_KEY}',
+        '{AWS_TOKEN}'
+    )
+);
+```
+
+
 # Snowflake with Python Pandas
 
 ```python
