@@ -111,7 +111,7 @@ show pipes;
 
 3、**snowflake --> AWS RDS Postgres**
 
-[Ref:] (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Procedural.Importing.html#USER_PostgreSQL.S3Import.create_s3_uri)
+[Ref:] (https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Procedural.Importing.html)
 
 ```sql
 -- Dump data from Snowflake to S3
