@@ -29,6 +29,7 @@ select get_ddl ('table', '{table_name}');
 1、**normal**
 
 ```sql
+-- Copy data directly into an exisging table
 copy into 's3://{bucket}/backup/data_backup.csv'
 from
 (
@@ -52,7 +53,8 @@ single = true
 max_file_size=5368709120;
 
 
-create or replace stage {table_name}
+-- Create a data stage and create a new table with data or copy date from the stage into an existing table
+create or replace stage {stage_table_name}
     URL = 's3://{bucket}/backup/data_backup.csv'
     CREDENTIALS = (AWS_KEY_ID = '',
                 AWS_SECRET_KEY = '',
@@ -70,21 +72,18 @@ create or replace stage {table_name}
         );
 
 
-copy into {table_name}
-    from 's3://{bucket}/backup/data_backup.csv'
-    CREDENTIALS = (AWS_KEY_ID = '',
-                AWS_SECRET_KEY = '',
-                AWS_TOKEN = ''
-              )
-    file_format=(
-          type = CSV
-          skip_header = 1
-          --field_delimiter = '|'
-          FIELD_OPTIONALLY_ENCLOSED_BY = ''''
-          encoding=UTF8
-          compression=gzip
-    );
+-- create a new table with data 
+create or replace table {table_name}
+as 
+select 
+$1:: varchar as col_1,
+$2:: int as col2
+from @{stage_table_name}
 
+
+-- copy date from the stage into an existing table
+copy into {table_name}
+    from {stage_table_name}
 ```
 
 2、**snowpipe**
