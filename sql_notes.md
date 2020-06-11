@@ -700,3 +700,30 @@ SET NOCOUNT 为 OFF 时，返回计数
 在SQL语句中出现 Order by,查询时，先排序，后取
 在SQL中，一个字段的最大容量是8000，而对于nvarchar(4000),由于nvarchar是Unicode码。 
        
+       
+# PostgreSQL & JSON
+
+1, Create JSON type column
+
+```sql
+create table test (col_json json, col_array varchar []);
+```
+
+2, Query data in JSON column
+
+```sql
+-- Select col_json.name (text) from the table
+select col_json->>'name' from test;
+
+-- Get only with a specific name
+select * from test where col_json->>'name' = 'Bill Gates';
+
+-- Fetch the first index of a JSON array
+select col_json->ids->0 from events;
+
+-- Find those col_json.testing is true (boolean)
+-- This need casting col_json->'testing' from json(text) to boolean
+select col_json->'testing' from test where (col_json->>'testing')::boolean is true;
+```
+
+  The short arrow -> keeps the type as JSON, and the long arrow ->> returns text.
