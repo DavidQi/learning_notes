@@ -618,15 +618,37 @@ select * from master..sysdatabases D where sid not in(select sid from master..sy
 ```
 或者
 ```sql
-select dbid, name AS DB_NAME from master..sysdatabases where sid <> 0x01 
+select dbid, name AS DB_NAME from master.sysdatabases where sid <> 0x01 
 ```
 
 14,**查询某一个表的字段和数据类型**
 ```sql
-select column_name,data_type from information_schema.columns where table_name = '表名' 
+select column_name, data_type from information_schema.columns where table_name = '表名' 
 ```
 
-15,**不同服务器数据库之间的数据操作**
+15,**list table foreign keys (Postgres)**
+[Ref](https://stackoverflow.com/questions/1152260/postgres-sql-to-list-table-foreign-keys)
+
+```sql
+SELECT
+    tc.table_schema, 
+    tc.constraint_name, 
+    tc.table_name, 
+    kcu.column_name, 
+    ccu.table_schema AS foreign_table_schema,
+    ccu.table_name AS foreign_table_name,
+    ccu.column_name AS foreign_column_name 
+FROM 
+    information_schema.table_constraints AS tc 
+    JOIN information_schema.key_column_usage AS kcu
+      ON tc.constraint_name = kcu.constraint_name
+      AND tc.table_schema = kcu.table_schema
+    JOIN information_schema.constraint_column_usage AS ccu
+      ON ccu.constraint_name = tc.constraint_name
+      AND ccu.table_schema = tc.table_schema
+WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_name='mytable';```
+
+16,**不同服务器数据库之间的数据操作**
  ```sql
 --创建链接服务器 
 exec sp_addlinkedserver   'ITSV ', ' ', 'SQLOLEDB ', '远程服务器名或ip地址 ' 
