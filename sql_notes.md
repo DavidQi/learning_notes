@@ -627,6 +627,7 @@ select column_name, data_type from information_schema.columns where table_name =
 ```
 
 15,**list table foreign keys (Postgres)**
+
 [Ref](https://stackoverflow.com/questions/1152260/postgres-sql-to-list-table-foreign-keys)
 
 ```sql
@@ -646,7 +647,8 @@ FROM
     JOIN information_schema.constraint_column_usage AS ccu
       ON ccu.constraint_name = tc.constraint_name
       AND ccu.table_schema = tc.table_schema
-WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_name='mytable';```
+WHERE tc.constraint_type = 'FOREIGN KEY' AND tc.table_name='mytable';
+```
 
 16,**不同服务器数据库之间的数据操作**
  ```sql
