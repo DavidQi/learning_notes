@@ -15,8 +15,18 @@ from bs4 import BeautifulSoup
 from collections import deque
 
 
+def my_timer(f):
+    def wrapper(*arg, **kwargs):
+        print(f'Starting {f.__name__} ...')
+        s = time.time()
+        r = f(*arg, **kwargs)
+        print(f'The processing took {time.time() - s} seconds.')
+        return r
+    return wrapper
+
+
+@my_timer
 def find_shortest_path_bfs(graph, start, end):
-    print('Starting BFS ...')
     if start == end:
         return [start]
     visited = {start}
@@ -27,16 +37,15 @@ def find_shortest_path_bfs(graph, start, end):
         visited.add(current)
         for node in graph.get(current, []):
             if node == end:
-                print(f'The processing took {time.time() - s} seconds.')
                 return path + [current, node]
             if node in visited:
                 continue
             queue.append((node, path + [current]))
             visited.add(node)
-    print(f'The processing took {time.time() - s} seconds.')
     return None
 
 
+@my_timer
 def find_all_paths_bfs(graph, start, end):
     queue = deque([[start]])
     all_possible_paths = []
@@ -80,7 +89,7 @@ class MingWikiGame(object):
             if t > 0:
                 self.graph[path] = urls
 
-    def task_generator(self) -> bool:
+    def task_generator(self) -> None:
         dct = self.graph.copy()
         for k, v in dct.items():
             links = set(v) or {k}
@@ -95,27 +104,20 @@ class MingWikiGame(object):
                 time.sleep(0.5)
                 links.difference_update(chunk)
 
-        if self.s_type != 'all':
-            self.path = find_shortest_path_bfs(self.graph, self.s_url, self.e_url)
-            if self.path:
-                print(f'Great!, The path has been found from {self.total_urls} urls in {self.total_pages} pages!')
-                print(self.path)
-                return True
-        return False
-
-    def run(self, depth: int = 1):
+    def run(self, depth: int = 1) -> None:
         if depth <= self.max_depth:
             print(f'Working on level {depth}')
-            if not self.task_generator():
-                self.run(depth + 1)
-        elif self.s_type == 'all':
-            self.path = find_all_paths_bfs(self.graph, self.s_url, self.e_url)
-            if self.path:
-                print('Great!, The path has been found!', self.path)
+            self.task_generator()
+            if self.s_type not in ['all', 'All', 'ALL']:
+                self.path = find_shortest_path_bfs(self.graph, self.s_url, self.e_url)
+                if self.path:
+                    return
+            self.run(depth + 1)
         else:
-            print(f'Down to the deepest level with {self.total_urls} urls in {self.total_pages} but not find')
+            self.path = find_all_paths_bfs(self.graph, self.s_url, self.e_url)
 
 
+@my_timer
 def test_bfs():
     graph = {
         '1': ['2', '3', '4'],
@@ -124,17 +126,24 @@ def test_bfs():
         '4': ['7', '8'],
         '7': ['11', '12']
     }
-
     print(find_shortest_path_bfs(graph, '1', '11'))
     print(find_all_paths_bfs(graph, '1', '11'))
 
 
-if __name__ == '__main__':
-    s = time.time()
-    # o = MingWikiGame('Web_Bot', 'Tax_credit', 'short', 3)
-    o = MingWikiGame('Web_Bot', 'Tax_holiday', 'short', 3)
+@my_timer
+def run_kiwi():
+    o = MingWikiGame('Web_Bot', 'Tax_credit', 'all', 2)
+    # o = MingWikiGame('Web_Bot', 'Tax_holiday', 'short', 3)
     o.run()
-    print(time.time() - s)
+    if o.path:
+        print(f'Great!, The path has been found from {o.total_urls} urls in {o.total_pages} pages!')
+        print(o.path)
+    else:
+        print(f'Down to the deepest level with {o.total_urls} urls in {o.total_pages} but not find')
+
+
+if __name__ == '__main__':
+    run_kiwi()
 
 
 # Below is the result of shortest:
